@@ -11,6 +11,7 @@ router.post('/', (req, res) => {
   // Extract necessary data
   const { serverUrl, project, qualityGate, analysedAt, status } = sonarqubePayload;
   const { conditions } = qualityGate;
+  let statusIcon = qualityGate.status == "OK" ? '✅' : "🚨";
 
   // Format the payload for Slack
   const slackPayload = {
@@ -20,7 +21,7 @@ router.post('/', (req, res) => {
         type: "header",
         text: {
           type: "plain_text",
-          text: `SonarQube Analysis for ${project.name} - ${qualityGate.status}`,
+          text: `${statusIcon} SonarQube Analysis for ${project.name} - ${qualityGate.status}`,
           emoji: true
         }
       },
