@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
+const dotenv = require('dotenv').config();
 
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
 
