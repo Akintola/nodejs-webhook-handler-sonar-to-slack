@@ -88,7 +88,7 @@ router.post('/', (req, res) => {
                 }))
             ],
             footer: "SonarQube",
-            footer_icon: iconUrl,
+            // footer_icon: iconUrl,
             ts: new Date(analysedAt).getTime() / 1000
         }
     ]
