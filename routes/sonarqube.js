@@ -16,80 +16,73 @@ router.post('/', (req, res) => {
 
   // Format the payload for Slack
   const slackPayload = {
-    attachments: [
-      {
-        color: color,
-        blocks: [
-          {
-            type: "header",
-            text: {
-              type: "plain_text",
-              text: `${qualityGate.status === 'OK' ? '✅' : '❌'} SonarQube Analysis for ${project.name} - ${qualityGate.status}`,
-              emoji: true
-            }
-          },
-          {
-            type: "section",
-            fields: [
-              {
-                type: "mrkdwn",
-                text: `*Project:* ${project.name}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Status:* ${qualityGate.status}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Analyzed At:* ${new Date(analysedAt).toLocaleString()}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Project URL:* <${project.url}|${project.name}>`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Server URL:* <${serverUrl}|SonarQube>`
-              }
-            ]
-          },
-          {
-            type: "section",
-            text: {
+    blocks: [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: `${qualityGate.status === 'OK' ? '✅' : '❌'} SonarQube Analysis for ${project.name} - ${qualityGate.status}`,
+            emoji: true
+          }
+        },
+        {
+          type: "section",
+          fields: [
+            {
               type: "mrkdwn",
-              text: "*Quality Gate Conditions:*"
+              text: `*Project:* ${project.name}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Status:* ${qualityGate.status}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Analyzed At:* ${new Date(analysedAt).toLocaleString()}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Project URL:* <${project.url}|${project.name}>`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Server URL:* <${serverUrl}|SonarQube>`
             }
-          },
-          ...conditions.map(condition => ({
-            type: "section",
-            fields: [
-              {
-                type: "mrkdwn",
-                text: `*Metric:* ${condition.metric}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Status:* ${condition.status}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Operator:* ${condition.operator}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Value:* ${condition.value || 'N/A'}`
-              },
-              {
-                type: "mrkdwn",
-                text: `*Error Threshold:* ${condition.errorThreshold}`
-              }
-            ]
-          }))
-        ],
-        footer: "SonarQube",
-        ts: new Date(analysedAt).getTime() / 1000
-      }
-    ]
+          ]
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "*Quality Gate Conditions:*"
+          }
+        },
+        ...conditions.map(condition => ({
+          type: "section",
+          fields: [
+            {
+              type: "mrkdwn",
+              text: `*Metric:* ${condition.metric}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Status:* ${condition.status}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Operator:* ${condition.operator}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Value:* ${condition.value || 'N/A'}`
+            },
+            {
+              type: "mrkdwn",
+              text: `*Error Threshold:* ${condition.errorThreshold}`
+            }
+          ]
+        }))
+      ]
   };
 
   // Send the reformatted payload to Slack
